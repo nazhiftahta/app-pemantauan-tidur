@@ -1,38 +1,47 @@
-# NapTime: Aplikasi Pemantauan Kesehatan dan Pola Tidur Sederhana
+# NapTime: A Simple Sleep and Health Monitoring Application
 
-## Deskripsi
-Aplikasi ini membantu pengguna mencatat dan menganalisis pola tidur serta aktivitas kesehatan harian.  
-Data utama yang digunakan adalah **riwayat tidur**, **jam tidur dan bangun**, serta **kualitas tidur pengguna**.  
-Pengguna aplikasi adalah individu yang ingin memantau kesehatan tidur mereka.
+## 📋 Description
+NapTime helps users record and analyze sleep patterns and daily health activities.  
+It focuses on tracking **sleep history**, **bedtime and wake-up times**, and **sleep quality**.  
+The application is designed for individuals who want to monitor and improve their sleep health.
 
-## Spesifikasi
+## ✨ Features
 
-**a.** Pengguna dapat **menambahkan**, **mengubah**, dan **menghapus** riwayat tidur yang mencakup **jam tidur** dan **jam bangun**.  
-**b.** Sistem akan secara otomatis **menghitung durasi tidur** dan memberikan **saran pola tidur yang sehat**.  
-**c.** Pengguna dapat **mencari riwayat tidur berdasarkan tanggal** menggunakan **Sequential dan Binary Search**.  
-**d.** Pengguna dapat **mengurutkan riwayat tidur** berdasarkan **durasi** atau **tanggal** menggunakan **Selection dan Insertion Sort**.  
-**e.** Sistem menampilkan laporan yang mencakup, misalnya:
-- Rekapitulasi **durasi tidur dalam 7 hari terakhir**.
-- **Rata-rata durasi tidur per minggu**.
+- ✅ Add, edit, and delete daily sleep records  
+- ⏱️ Automatic sleep duration calculation  
+- 📊 Weekly reports: 7-day summary & average duration  
+- 🔍 Search sleep data (Sequential & Binary Search)  
+- 📑 Sort sleep data by duration or date (Selection & Insertion Sort)
 
-## Fitur
+## 🛠️ Specifications
 
-- Tambah, ubah, dan hapus data tidur harian
-- Hitung durasi tidur otomatis
-- Laporan 7 hari terakhir dan rata-rata tidur
-- Pencarian data (sequential dan binary search)
-- Pengurutan data (selection dan insertion sort)
+- Users can **add**, **edit**, and **delete** sleep records that include bedtime and wake-up time.  
+- The system **automatically calculates sleep duration** and provides **healthy sleep advice**.  
+- Users can **search** sleep records by date using:
+  - **Sequential Search**
+  - **Binary Search**
+- Users can **sort** sleep records by:
+  - **Duration**
+  - **Date**  
+  using:
+  - **Selection Sort**
+  - **Insertion Sort**
+- Reports include:
+  - 🔄 Recap of **sleep duration over the past 7 days**
+  - 📈 **Average sleep duration per week**
 
-## Catatan Teknis
-- Maksimal data tidur yang disimpan: 100 entri (konstanta NMAX)
-- Sistem melakukan validasi jam tidur dan jam bangun.
-- Sistem memberikan saran **jika tidur lewat dari jam 23.00** atau **durasi kurang dari 8 jam**
+## 🧾 Technical Notes
 
-## Cara Menjalankan
+- Maximum number of stored sleep records: **100 entries** (`NMAX`)  
+- Built-in validation for bedtime and wake-up time  
+- Suggestions are shown if:
+  - 🕚 Sleep starts **after 11:00 PM**
+  - 😴 Total sleep is **less than 8 hours**
 
-Pastikan Anda telah menginstal Go di sistem Anda.  
-Lalu jalankan aplikasi dengan perintah berikut di terminal:
+## 🚀 How to Run
+
+Make sure you have **Go** installed on your system.  
+To run the application, open your terminal and type:
 
 ```bash
 go run naptime_app.go
-```
