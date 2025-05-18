@@ -94,16 +94,23 @@ func tambahData() {
 
 	fmt.Println("Data berhasil ditambahkan!")
 
-	// Memberikan saran
-    if durasi < 8 {
-        fmt.Println("Saran: Durasi tidur Anda kurang dari 8 jam. Usahakan untuk tidur lebih lama demi kesehatan.")
-    }
+	// Saran/feedback durasi tidur
+	if durasi < 7 {
+		fmt.Println("⚠ Saran: Durasi tidur Anda kurang dari 7 jam. Usahakan untuk tidur lebih lama demi kesehatan.")
+	} else if durasi > 9 {
+		fmt.Println("⚠ Saran: Durasi tidur Anda lebih dari 9 jam. Tidur terlalu lama juga kurang baik untuk kesehatan.")
+	} else {
+		fmt.Println("💬 Feedback: Durasi tidur Anda teratur (7-9 jam). Pertahankan pola tidur ini!")
+	}
 
-    var jamTidurJam, jamTidurMenit int
-    fmt.Sscanf(jamTidur, "%d:%d", &jamTidurJam, &jamTidurMenit)
-    if jamTidurJam >= 23 {
-        fmt.Println("Saran: Anda tidur di atas jam 11 malam. Usahakan untuk tidur lebih awal agar lebih sehat.")
-    }
+	// Saran/feedback jam tidur
+	var jamTidurJam, jamTidurMenit int
+	fmt.Sscanf(jamTidur, "%d:%d", &jamTidurJam, &jamTidurMenit)
+	if jamTidurJam >= 23 {
+		fmt.Println("⚠ Saran: Anda tidur di atas jam 11 malam. Usahakan untuk tidur lebih awal agar lebih sehat.")
+	} else {
+		fmt.Println("💬 Feedback: Anda sudah tidur sebelum jam 11 malam. Pertahankan kebiasaan baik ini!")
+	}
 }
 
 func ubahData() {
@@ -212,16 +219,16 @@ func cariData() {
 		}
 	} else if metode == 2 {
 		// Binary Search
-		low := 0
-		high := jumlahData - 1
-		for low <= high && idx == -1 {
-			mid := (low + high) / 2
+		left := 0
+		rigt := jumlahData - 1
+		for left <= rigt && idx == -1 {
+			mid := (left + rigt) / 2
 			if dataTidur[mid].Tanggal == tanggal {
 				idx = mid
 			} else if dataTidur[mid].Tanggal < tanggal {
-				low = mid + 1
+				left = mid + 1
 			} else {
-				high = mid - 1
+				rigt = mid - 1
 			}
 		}
 	} else {
@@ -334,7 +341,7 @@ func tampilkanLaporan() {
 	fmt.Println("===== Laporan Pola Tidur =====")
 
 	// Rekap 7 hari terakhir
-	fmt.Println("\nRekap 7 Hari Terakhir:")
+	fmt.Println("\n📊 Rekap 7 Hari Terakhir:")
 	start := 0
 	if jumlahData > 7 {
 		start = jumlahData - 7
