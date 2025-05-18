@@ -100,7 +100,7 @@ func tambahData() {
 	} else if durasi > 9 {
 		fmt.Println("⚠ Saran: Durasi tidur Anda lebih dari 9 jam. Tidur terlalu lama juga kurang baik untuk kesehatan.")
 	} else {
-		fmt.Println("💬 Feedback: Durasi tidur Anda teratur (7-9 jam). Pertahankan pola tidur ini!")
+		fmt.Println("💬 Feedback: Durasi tidur Anda teratur (7-9 jam). Pertahankan pola tidur yang baik seperti ini!")
 	}
 
 	// Saran/feedback jam tidur
