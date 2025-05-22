@@ -29,6 +29,7 @@ The application is designed for individuals who want to monitor and improve thei
 - Reports include:
   - 🔄 Recap of **sleep duration over the past 7 days**
   - 📈 **Average sleep duration per week**
+  - ⏱️ **Longest and shortest sleep duration** within the past 7 days
 
 ## 🧾 Technical Notes
 
