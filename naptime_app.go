@@ -13,7 +13,6 @@ type RiwayatTidur struct {
 
 type dataTidur [NMAX]RiwayatTidur
 
-
 func main() {
     var data dataTidur
     var pilihan int
@@ -60,6 +59,38 @@ func hitungJumlahData(dt dataTidur) int {
     return count
 }
 
+func validasiTanggal(tanggal string) bool {
+    var tahun, bulan, hari int
+    if _, err := fmt.Sscanf(tanggal, "%d-%d-%d", &tahun, &bulan, &hari); err != nil {
+        return false
+    }
+    if tahun < 1900 || bulan < 1 || bulan > 12 || hari < 1 || hari > 31 {
+        return false
+    }
+    hariBulan := [12]int{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}
+    if bulan == 2 && ((tahun%4 == 0 && tahun%100 != 0) || tahun%400 == 0) {
+        if hari > 29 {
+            return false
+        }
+    } else {
+        if hari > hariBulan[bulan-1] {
+            return false
+        }
+    }
+    return true
+}
+
+func validasiJam(jam string) bool {
+    var h, m int
+    if _, err := fmt.Sscanf(jam, "%d:%d", &h, &m); err != nil {
+        return false
+    }
+    if h < 0 || h > 23 || m < 0 || m > 59 {
+        return false
+    }
+    return true
+}
+
 func hitungDurasi(jamTidur, jamBangun string) float64 {
     var jam1, menit1, jam2, menit2 int
     fmt.Sscanf(jamTidur, "%d:%d", &jam1, &menit1)
@@ -78,12 +109,36 @@ func tambahData(dt dataTidur) dataTidur {
         return dt
     }
     var tanggal, jamTidur, jamBangun string
-    fmt.Print("Masukkan tanggal (YYYY-MM-DD): ")
-    fmt.Scan(&tanggal)
-    fmt.Print("Masukkan jam tidur (HH:MM): ")
-    fmt.Scan(&jamTidur)
-    fmt.Print("Masukkan jam bangun (HH:MM): ")
-    fmt.Scan(&jamBangun)
+    valid := false
+    for !valid {
+        fmt.Print("Masukkan tanggal (YYYY-MM-DD): ")
+        fmt.Scan(&tanggal)
+        if validasiTanggal(tanggal) {
+            valid = true
+        } else {
+            fmt.Println("Format tanggal tidak valid atau tanggal tidak ada. Coba lagi.")
+        }
+    }
+    valid = false
+    for !valid {
+        fmt.Print("Masukkan jam tidur (HH:MM): ")
+        fmt.Scan(&jamTidur)
+        if validasiJam(jamTidur) {
+            valid = true
+        } else {
+            fmt.Println("Format jam tidak valid. Coba lagi.")
+        }
+    }
+    valid = false
+    for !valid {
+        fmt.Print("Masukkan jam bangun (HH:MM): ")
+        fmt.Scan(&jamBangun)
+        if validasiJam(jamBangun) {
+            valid = true
+        } else {
+            fmt.Println("Format jam tidak valid. Coba lagi.")
+        }
+    }
     durasi := hitungDurasi(jamTidur, jamBangun)
     dt[jumlahData] = RiwayatTidur{
         Tanggal:     tanggal,
@@ -92,12 +147,12 @@ func tambahData(dt dataTidur) dataTidur {
         DurasiTidur: durasi,
     }
     fmt.Println("Data berhasil ditambahkan!")
-    if durasi < 8 {
-        fmt.Println("⚠️ Saran: Durasi tidur Anda kurang dari 8 jam. Usahakan untuk tidur lebih lama demi kesehatan.")
+    if durasi < 7 {
+        fmt.Println("⚠️ Saran: Durasi tidur Anda kurang dari 7 jam. Usahakan untuk tidur lebih lama demi kesehatan.")
     } else if durasi > 9 {
         fmt.Println("⚠️ Saran: Durasi tidur Anda lebih dari 9 jam. Tidur terlalu lama juga kurang baik untuk kesehatan.")
     } else {
-        fmt.Println("💬 Feedback: Durasi tidur Anda teratur (8-9 jam). Pertahankan pola tidur ini!")
+        fmt.Println("💬 Feedback: Durasi tidur Anda teratur (7-9 jam). Pertahankan pola tidur ini!")
     }
     var jamTidurJam, jamTidurMenit int
     fmt.Sscanf(jamTidur, "%d:%d", &jamTidurJam, &jamTidurMenit)
@@ -116,8 +171,16 @@ func ubahData(dt dataTidur) dataTidur {
         return dt
     }
     var tanggal string
-    fmt.Print("Masukkan tanggal data yang ingin diubah (YYYY-MM-DD): ")
-    fmt.Scan(&tanggal)
+    valid := false
+    for !valid {
+        fmt.Print("Masukkan tanggal data yang ingin diubah (YYYY-MM-DD): ")
+        fmt.Scan(&tanggal)
+        if validasiTanggal(tanggal) {
+            valid = true
+        } else {
+            fmt.Println("Format tanggal tidak valid atau tanggal tidak ada. Coba lagi.")
+        }
+    }
     idx := -1
     for i := 0; i < jumlahData; i++ {
         if dt[i].Tanggal == tanggal {
@@ -132,10 +195,26 @@ func ubahData(dt dataTidur) dataTidur {
     fmt.Println("Jam Tidur Sebelumnya:", dt[idx].JamTidur)
     fmt.Println("Jam Bangun Sebelumnya:", dt[idx].JamBangun)
     var jamTidurBaru, jamBangunBaru string
-    fmt.Print("Masukkan jam tidur baru (HH:MM): ")
-    fmt.Scan(&jamTidurBaru)
-    fmt.Print("Masukkan jam bangun baru (HH:MM): ")
-    fmt.Scan(&jamBangunBaru)
+    valid = false
+    for !valid {
+        fmt.Print("Masukkan jam tidur baru (HH:MM): ")
+        fmt.Scan(&jamTidurBaru)
+        if validasiJam(jamTidurBaru) {
+            valid = true
+        } else {
+            fmt.Println("Format jam tidak valid. Coba lagi.")
+        }
+    }
+    valid = false
+    for !valid {
+        fmt.Print("Masukkan jam bangun baru (HH:MM): ")
+        fmt.Scan(&jamBangunBaru)
+        if validasiJam(jamBangunBaru) {
+            valid = true
+        } else {
+            fmt.Println("Format jam tidak valid. Coba lagi.")
+        }
+    }
     durasiBaru := hitungDurasi(jamTidurBaru, jamBangunBaru)
     dt[idx].JamTidur = jamTidurBaru
     dt[idx].JamBangun = jamBangunBaru
@@ -151,8 +230,16 @@ func hapusData(dt dataTidur) dataTidur {
         return dt
     }
     var tanggal string
-    fmt.Print("Masukkan tanggal data yang ingin dihapus (YYYY-MM-DD): ")
-    fmt.Scan(&tanggal)
+    valid := false
+    for !valid {
+        fmt.Print("Masukkan tanggal data yang ingin dihapus (YYYY-MM-DD): ")
+        fmt.Scan(&tanggal)
+        if validasiTanggal(tanggal) {
+            valid = true
+        } else {
+            fmt.Println("Format tanggal tidak valid atau tanggal tidak ada. Coba lagi.")
+        }
+    }
     idx := -1
     for i := 0; i < jumlahData; i++ {
         if dt[i].Tanggal == tanggal {
@@ -161,6 +248,13 @@ func hapusData(dt dataTidur) dataTidur {
     }
     if idx == -1 {
         fmt.Println("Data tidak ditemukan.")
+        return dt
+    }
+    var konfirmasi string
+    fmt.Printf("Apakah Anda yakin ingin menghapus data tanggal %s? (y/n): ", tanggal)
+    fmt.Scan(&konfirmasi)
+    if konfirmasi != "y" && konfirmasi != "Y" {
+        fmt.Println("Penghapusan dibatalkan.")
         return dt
     }
     for i := idx; i < jumlahData-1; i++ {
@@ -179,8 +273,16 @@ func cariData(dt dataTidur) {
     }
     var tanggal string
     var metode int
-    fmt.Print("Masukkan tanggal yang dicari (YYYY-MM-DD): ")
-    fmt.Scan(&tanggal)
+    valid := false
+    for !valid {
+        fmt.Print("Masukkan tanggal yang dicari (YYYY-MM-DD): ")
+        fmt.Scan(&tanggal)
+        if validasiTanggal(tanggal) {
+            valid = true
+        } else {
+            fmt.Println("Format tanggal tidak valid atau tanggal tidak ada. Coba lagi.")
+        }
+    }
     fmt.Println("Pilih metode pencarian:")
     fmt.Println("1. Sequential Search")
     fmt.Println("2. Binary Search")
@@ -194,6 +296,8 @@ func cariData(dt dataTidur) {
             }
         }
     } else if metode == 2 {
+        // Pastikan data sudah terurut berdasarkan tanggal ASCENDING sebelum binary search
+        dt = selectionSort(dt, 1, true)
         left := 0
         right := jumlahData - 1
         for left <= right && idx == -1 {
@@ -211,7 +315,7 @@ func cariData(dt dataTidur) {
         return
     }
     if idx != -1 {
-        fmt.Println("\nData ditemukan:")
+        fmt.Println("\nData telah ditemukan.")
         fmt.Println("Tanggal     :", dt[idx].Tanggal)
         fmt.Println("Jam Tidur   :", dt[idx].JamTidur)
         fmt.Println("Jam Bangun  :", dt[idx].JamBangun)
@@ -300,6 +404,23 @@ func banding(a, b RiwayatTidur, kriteria int, ascending bool) bool {
     }
 }
 
+func nilaiEkstrim(dt dataTidur, jumlahData int) (maxIdx, minIdx int) {
+    start := 0
+    if jumlahData > 7 {
+        start = jumlahData - 7
+    }
+    maxIdx, minIdx = start, start
+    for i := start + 1; i < jumlahData; i++ {
+        if dt[i].DurasiTidur > dt[maxIdx].DurasiTidur {
+            maxIdx = i
+        }
+        if dt[i].DurasiTidur < dt[minIdx].DurasiTidur {
+            minIdx = i
+        }
+    }
+    return maxIdx, minIdx
+}
+
 func tampilkanLaporan(dt dataTidur) {
     jumlahData := hitungJumlahData(dt)
     if jumlahData == 0 {
@@ -319,6 +440,11 @@ func tampilkanLaporan(dt dataTidur) {
         fmt.Printf("- %s: %.2f jam\n", dt[i].Tanggal, dt[i].DurasiTidur)
         total7Hari += dt[i].DurasiTidur
         jumlahHari++
+    }
+    if jumlahHari > 0 {
+        maxIdx, minIdx := nilaiEkstrim(dt, jumlahData)
+        fmt.Printf("\n📈 Durasi tidur terlama: %s (%.2f jam)\n", dt[maxIdx].Tanggal, dt[maxIdx].DurasiTidur)
+        fmt.Printf("📉 Durasi tidur tersingkat: %s (%.2f jam)\n", dt[minIdx].Tanggal, dt[minIdx].DurasiTidur)
     }
     totalAll := 0.0
     for i := 0; i < jumlahData; i++ {
