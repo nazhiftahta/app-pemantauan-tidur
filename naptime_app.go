@@ -64,7 +64,7 @@ func validasiTanggal(tanggal string) bool {
     if _, err := fmt.Sscanf(tanggal, "%d-%d-%d", &tahun, &bulan, &hari); err != nil {
         return false
     }
-    if tahun < 1900 || bulan < 1 || bulan > 12 || hari < 1 || hari > 31 {
+    if tahun < 2025 || bulan < 1 || bulan > 12 || hari < 1 || hari > 31 {
         return false
     }
     hariBulan := [12]int{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}
