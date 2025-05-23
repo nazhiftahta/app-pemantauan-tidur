@@ -32,7 +32,8 @@ NapTime is a terminal-based backend application designed to help users record, m
 ## 🧾 Technical Notes
 
 - Maximum number of stored sleep records: **100 entries** (`NMAX`)  
-- Built-in validation for bedtime and wake-up time  
+- Built-in validation for bedtime and wake-up time
+- Only allows sleep records **from the year 2025 and onward**  
 - Suggestions are shown if:
   - 🕚 Sleep starts **after 11:00 PM**
   - 😴 Total sleep is **less than 7 hours or more than 9 hours a day**
