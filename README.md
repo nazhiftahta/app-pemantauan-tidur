@@ -1,9 +1,7 @@
 # NapTime: A Simple Sleep and Health Monitoring Application
 
 ## 📋 Description
-NapTime helps users record and analyze sleep patterns and daily health activities.  
-It focuses on tracking **sleep history**, **bedtime and wake-up times**, and **sleep quality**.  
-The application is designed for individuals who want to monitor and improve their sleep health.
+NapTime is a terminal-based backend application designed to help users record, monitor, and analyze their sleep patterns and daily health activities, supporting a healthier and more structured lifestyle. It focuses on tracking **sleep history**, **bedtime and wake-up times**, and **sleep quality**.
 
 ## ✨ Features
 
