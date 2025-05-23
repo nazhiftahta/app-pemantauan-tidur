@@ -37,7 +37,7 @@ The application is designed for individuals who want to monitor and improve thei
 - Built-in validation for bedtime and wake-up time  
 - Suggestions are shown if:
   - 🕚 Sleep starts **after 11:00 PM**
-  - 😴 Total sleep is **less than 8 hours**
+  - 😴 Total sleep is **less than 7 hours or more than 9 hours a day**
 
 ## 🚀 How to Run
 
