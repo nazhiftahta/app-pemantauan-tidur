@@ -481,8 +481,16 @@ func tampilkanLaporan(dt dataTidur) {
         totalAll += dt[i].DurasiTidur
     }
     rataRata := totalAll / float64(jumlahData)
-    fmt.Printf("\n Rata-rata durasi tidur (semua data): %.2f jam\n", rataRata)
+    fmt.Printf("\n Rata-rata durasi tidur dalam %d hari: %.2f jam\n", jumlahData, rataRata)
     if jumlahHari > 0 {
-        fmt.Printf(" Rata-rata durasi tidur (7 hari terakhir): %.2f jam\n", total7Hari/float64(jumlahHari))
+        fmt.Printf(" Rata-rata durasi tidur %d hari terakhir: %.2f jam\n", jumlahHari, total7Hari/float64(jumlahHari))
+    }
+    fmt.Println()
+    if rataRata < 7 {
+        fmt.Println("⚠️ Rata-rata durasi tidur kurang dari 7 jam. Perlu perbaikan pola tidur.")
+    } else if rataRata > 9 {
+        fmt.Println("⚠️ Rata-rata durasi tidur lebih dari 9 jam. Perhatikan pola tidur berlebih.")
+    } else {
+        fmt.Println("💬 Rata-rata durasi tidur dalam rentang sehat. Pertahankan!")
     }
 }
