@@ -49,7 +49,6 @@ func main() {
     }
 }
 
-// Menghitung jumlah data yang sudah terisi pada array dataTidur
 func hitungJumlahData(dt dataTidur) int {
     count := 0
     for i := 0; i < NMAX; i++ {
@@ -60,13 +59,15 @@ func hitungJumlahData(dt dataTidur) int {
     return count
 }
 
-// Validasi format dan keberadaan tanggal (YYYY-MM-DD)
 func validasiTanggal(tanggal string) bool {
-    var tahun, bulan, hari int
-    if _, err := fmt.Sscanf(tanggal, "%d-%d-%d", &tahun, &bulan, &hari); err != nil {
+    // Cek panjang dan format: YYYY-MM-DD (10 karakter, '-' di posisi 4 dan 7)
+    if len(tanggal) != 10 || tanggal[4] != '-' || tanggal[7] != '-' {
         return false
     }
-    // Hanya menerima tahun 2025 ke atas
+    var tahun, bulan, hari int
+    if _, err := fmt.Sscanf(tanggal, "%4d-%2d-%2d", &tahun, &bulan, &hari); err != nil {
+        return false
+    }
     if tahun < 2025 || bulan < 1 || bulan > 12 || hari < 1 || hari > 31 {
         return false
     }
@@ -83,10 +84,13 @@ func validasiTanggal(tanggal string) bool {
     return true
 }
 
-// Validasi format jam (HH:MM)
 func validasiJam(jam string) bool {
+    // Cek panjang dan format: HH:MM (5 karakter, ':' di posisi 2)
+    if len(jam) != 5 || jam[2] != ':' {
+        return false
+    }
     var h, m int
-    if _, err := fmt.Sscanf(jam, "%d:%d", &h, &m); err != nil {
+    if _, err := fmt.Sscanf(jam, "%2d:%2d", &h, &m); err != nil {
         return false
     }
     if h < 0 || h > 23 || m < 0 || m > 59 {
@@ -95,7 +99,6 @@ func validasiJam(jam string) bool {
     return true
 }
 
-// Hitung durasi tidur dalam jam dari jam tidur dan jam bangun
 func hitungDurasi(jamTidur, jamBangun string) float64 {
     var jam1, menit1, jam2, menit2 int
     fmt.Sscanf(jamTidur, "%d:%d", &jam1, &menit1)
@@ -107,7 +110,6 @@ func hitungDurasi(jamTidur, jamBangun string) float64 {
     return float64(totalMenitTidur) / 60.0
 }
 
-// Tambah data tidur baru ke array, dengan validasi input
 func tambahData(dt dataTidur) dataTidur {
     jumlahData := hitungJumlahData(dt)
     if jumlahData >= NMAX {
@@ -116,7 +118,6 @@ func tambahData(dt dataTidur) dataTidur {
     }
     var tanggal, jamTidur, jamBangun string
     valid := false
-    // Validasi input tanggal
     for !valid {
         fmt.Print("Masukkan tanggal (YYYY-MM-DD): ")
         fmt.Scan(&tanggal)
@@ -127,7 +128,6 @@ func tambahData(dt dataTidur) dataTidur {
         }
     }
     valid = false
-    // Validasi input jam tidur
     for !valid {
         fmt.Print("Masukkan jam tidur (HH:MM): ")
         fmt.Scan(&jamTidur)
@@ -138,7 +138,6 @@ func tambahData(dt dataTidur) dataTidur {
         }
     }
     valid = false
-    // Validasi input jam bangun
     for !valid {
         fmt.Print("Masukkan jam bangun (HH:MM): ")
         fmt.Scan(&jamBangun)
@@ -156,7 +155,6 @@ func tambahData(dt dataTidur) dataTidur {
         DurasiTidur: durasi,
     }
     fmt.Println("Data berhasil ditambahkan!")
-    // Feedback durasi tidur
     if durasi < 7 {
         fmt.Println("⚠️ Saran: Durasi tidur Anda kurang dari 7 jam. Usahakan untuk tidur lebih lama demi kesehatan.")
     } else if durasi > 9 {
@@ -166,7 +164,6 @@ func tambahData(dt dataTidur) dataTidur {
     }
     var jamTidurJam, jamTidurMenit int
     fmt.Sscanf(jamTidur, "%d:%d", &jamTidurJam, &jamTidurMenit)
-    // Feedback waktu tidur
     if jamTidurJam >= 23 {
         fmt.Println("⚠️ Saran: Anda tidur di atas jam 11 malam. Usahakan untuk tidur lebih awal agar lebih sehat.")
     } else {
@@ -175,7 +172,6 @@ func tambahData(dt dataTidur) dataTidur {
     return dt
 }
 
-// Ubah data tidur berdasarkan tanggal, dengan validasi input
 func ubahData(dt dataTidur) dataTidur {
     jumlahData := hitungJumlahData(dt)
     if jumlahData == 0 {
@@ -184,7 +180,6 @@ func ubahData(dt dataTidur) dataTidur {
     }
     var tanggal string
     valid := false
-    // Validasi input tanggal
     for !valid {
         fmt.Print("Masukkan tanggal data yang ingin diubah (YYYY-MM-DD): ")
         fmt.Scan(&tanggal)
@@ -195,7 +190,6 @@ func ubahData(dt dataTidur) dataTidur {
         }
     }
     idx := -1
-    // Cari data berdasarkan tanggal
     for i := 0; i < jumlahData; i++ {
         if dt[i].Tanggal == tanggal {
             idx = i
@@ -210,7 +204,6 @@ func ubahData(dt dataTidur) dataTidur {
     fmt.Println("Jam Bangun Sebelumnya:", dt[idx].JamBangun)
     var jamTidurBaru, jamBangunBaru string
     valid = false
-    // Validasi jam tidur baru
     for !valid {
         fmt.Print("Masukkan jam tidur baru (HH:MM): ")
         fmt.Scan(&jamTidurBaru)
@@ -221,7 +214,6 @@ func ubahData(dt dataTidur) dataTidur {
         }
     }
     valid = false
-    // Validasi jam bangun baru
     for !valid {
         fmt.Print("Masukkan jam bangun baru (HH:MM): ")
         fmt.Scan(&jamBangunBaru)
@@ -239,7 +231,6 @@ func ubahData(dt dataTidur) dataTidur {
     return dt
 }
 
-// Hapus data tidur berdasarkan tanggal, dengan konfirmasi
 func hapusData(dt dataTidur) dataTidur {
     jumlahData := hitungJumlahData(dt)
     if jumlahData == 0 {
@@ -248,7 +239,6 @@ func hapusData(dt dataTidur) dataTidur {
     }
     var tanggal string
     valid := false
-    // Validasi input tanggal
     for !valid {
         fmt.Print("Masukkan tanggal data yang ingin dihapus (YYYY-MM-DD): ")
         fmt.Scan(&tanggal)
@@ -259,7 +249,6 @@ func hapusData(dt dataTidur) dataTidur {
         }
     }
     idx := -1
-    // Cari data berdasarkan tanggal
     for i := 0; i < jumlahData; i++ {
         if dt[i].Tanggal == tanggal {
             idx = i
@@ -276,7 +265,6 @@ func hapusData(dt dataTidur) dataTidur {
         fmt.Println("Penghapusan dibatalkan.")
         return dt
     }
-    // Geser data ke kiri setelah data dihapus
     for i := idx; i < jumlahData-1; i++ {
         dt[i] = dt[i+1]
     }
@@ -285,7 +273,6 @@ func hapusData(dt dataTidur) dataTidur {
     return dt
 }
 
-// Cari data tidur berdasarkan tanggal, bisa sequential atau binary search
 func cariData(dt dataTidur) {
     jumlahData := hitungJumlahData(dt)
     if jumlahData == 0 {
@@ -295,7 +282,6 @@ func cariData(dt dataTidur) {
     var tanggal string
     var metode int
     valid := false
-    // Validasi input tanggal
     for !valid {
         fmt.Print("Masukkan tanggal yang dicari (YYYY-MM-DD): ")
         fmt.Scan(&tanggal)
@@ -312,7 +298,6 @@ func cariData(dt dataTidur) {
     fmt.Scan(&metode)
     var idx int = -1
     if metode == 1 {
-        // Sequential search: telusuri satu per satu
         for i := 0; i < jumlahData; i++ {
             if dt[i].Tanggal == tanggal {
                 idx = i
@@ -323,7 +308,6 @@ func cariData(dt dataTidur) {
         dt = selectionSort(dt, 1, true)
         left := 0
         right := jumlahData - 1
-        // Binary search: lebih cepat pada data terurut
         for left <= right && idx == -1 {
             mid := (left + right) / 2
             if dt[mid].Tanggal == tanggal {
@@ -349,7 +333,6 @@ func cariData(dt dataTidur) {
     }
 }
 
-// Urutkan data tidur berdasarkan kriteria dan metode yang dipilih user
 func urutkanData(dt dataTidur) dataTidur {
     jumlahData := hitungJumlahData(dt)
     if jumlahData == 0 {
@@ -385,7 +368,6 @@ func urutkanData(dt dataTidur) dataTidur {
     return dt
 }
 
-// Selection sort untuk mengurutkan data tidur
 func selectionSort(dt dataTidur, kriteria int, ascending bool) dataTidur {
     jumlahData := hitungJumlahData(dt)
     for i := 0; i < jumlahData-1; i++ {
@@ -400,7 +382,6 @@ func selectionSort(dt dataTidur, kriteria int, ascending bool) dataTidur {
     return dt
 }
 
-// Insertion sort untuk mengurutkan data tidur
 func insertionSort(dt dataTidur, kriteria int, ascending bool) dataTidur {
     jumlahData := hitungJumlahData(dt)
     for i := 1; i < jumlahData; i++ {
@@ -415,7 +396,6 @@ func insertionSort(dt dataTidur, kriteria int, ascending bool) dataTidur {
     return dt
 }
 
-// Fungsi pembanding untuk sorting
 func banding(a, b RiwayatTidur, kriteria int, ascending bool) bool {
     if kriteria == 1 {
         if ascending {
@@ -432,8 +412,8 @@ func banding(a, b RiwayatTidur, kriteria int, ascending bool) bool {
     }
 }
 
-// Cari nilai ekstrim (terlama dan tersingkat) pada 7 hari terakhir
-func nilaiEkstrim(dt dataTidur, jumlahData int) (maxIdx, minIdx int) {
+func nilaiEkstrim(dt dataTidur, jumlahData int) (int, int) {
+    var maxIdx, minIdx int
     start := 0
     if jumlahData > 7 {
         start = jumlahData - 7
@@ -450,7 +430,6 @@ func nilaiEkstrim(dt dataTidur, jumlahData int) (maxIdx, minIdx int) {
     return maxIdx, minIdx
 }
 
-// Tampilkan laporan rekap 7 hari terakhir, rata-rata, dan nilai ekstrim
 func tampilkanLaporan(dt dataTidur) {
     jumlahData := hitungJumlahData(dt)
     if jumlahData == 0 {
